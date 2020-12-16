@@ -27,7 +27,7 @@ services:
     volumes:
       - ./tugas_pabo/:/var/www/html/
     ports:
-      - "8080:80"
+      - "80:80"
     stdin_open: true
     networks:
       - mybridge

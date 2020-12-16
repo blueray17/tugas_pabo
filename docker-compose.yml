@@ -1,0 +1,36 @@
+# ./docker-compose.yml
+
+version: '3'
+
+services:
+  db:
+    image: mysql:8.0.22
+    container_name: db_mysql_pabo
+    volumes:
+      - ./db_dump:/docker-entrypoint-initdb.d
+      - ./conf:/etc/mysql/conf.d:ro
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: devuser
+      MYSQL_PASSWORD: devpass
+    ports:
+      - "3307:3306"
+    networks:
+      - mybridge
+
+  web:
+    image: php_ipin:1.0
+    container_name: php_ipin_pabo
+    depends_on:
+      - db
+    volumes:
+      - ./tugas_pabo/:/var/www/html/
+    ports:
+      - "8080:80"
+    stdin_open: true
+    networks:
+      - mybridge
+networks:
+  mybridge:
+    driver: bridge
